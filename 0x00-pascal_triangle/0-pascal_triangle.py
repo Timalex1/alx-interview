@@ -4,27 +4,24 @@
 
 def pascal_triangle(n):
     """returns a list of lists of numbers
-representing the pascals triangle"""
-
+    representing the pacals triangle"""
     if n <= 0:
         return []
 
+    pascal_triangle = [0] * n
 
-    # [1] is the initial element
-    triangle = [[1]]
+    for i in range(n):
+        # define a row and fill first and last idx with 1
+        new_row = [0] * (i+1)
+        new_row[0] = 1
+        new_row[len(new_row) - 1] = 1
 
-    # iterate to up size n - 1
-    for i in range(n - 1):
-        # pick the previous list
-        # add zeros to both ends
-        temp = [0] + triangle[-1] + [0]
-        # create a new row
-        row = []
-        # iterate up to size of previous row + 1
-        # because new row will have one more element than previous
-        for j in range(len(triangle[-1]) + 1):
-            # add values to next new row
-            row.append(temp[j] + temp[j + 1])
-        # add the row to the triangle
-        triangle.append(row)
-    return triangle
+        for j in range(1, i):
+            if j > 0 and j < len(new_row):
+                a = pascal_triangle[i - 1][j]
+                b = pascal_triangle[i - 1][j - 1]
+                new_row[j] = a + b
+
+        pascal_triangle[i] = new_row
+
+    return pascal_triangle
